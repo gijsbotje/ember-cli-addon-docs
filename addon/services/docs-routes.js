@@ -48,6 +48,17 @@ export default Service.extend({
     }
   }),
 
+  currentRouteFilename: computed('currentRouteIndex', function() {
+    let currentRouteIndex = this.get('currentRouteIndex');
+    if (currentRouteIndex !== undefined) {
+      let currentRouteUrl = this.get('routeUrls')[(this.get('currentRouteIndex'))];
+      let key = Object.keys(window.requirejs.entries).filter(x => x.match(currentRouteUrl))[0];
+      let filename = window.requirejs.entries[key].module.exports.default.meta.moduleName;
+
+      return filename;
+    }
+  }),
+
   nextRoute: computed('currentRouteIndex', 'routes.[]', function() {
     let currentIndex = this.get('currentRouteIndex');
 
